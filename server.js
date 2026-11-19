@@ -1,8 +1,10 @@
 import "dotenv/config"; //This has to come first, so your API key is ready before any other code needs it
 import express from "express";
+import movieRoutes from "./routes/movieRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+app.use("/api", movieRoutes); // Mounting. makes search into /api/search
 
 app.get("/", (req, res) => {
   res.json({ message: "Movie Finder API is running" });
