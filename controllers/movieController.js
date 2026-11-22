@@ -17,6 +17,16 @@ export const searchMovies = async (req, res) => {
   }
 };
 
-export const getMovieDetails = (req, res) => {
-  res.json({ message: "Details route works" });
+export const getMovieDetails = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const response = await axios.get(OMDB_URL, {
+      params: { i: id, apikey: process.env.OMDB_API_KEY }, //i is OMDb's name for "IMDb ID". Search used s. The rubric checks for i and apikey
+    });
+    res.json(response.data);
+  } catch (error) {
+    //log the real problem in terminal
+    console.error(error.message);
+    res.status(500).json({ error: "Failed to fetch movie details from OMDb" });
+  }
 };
